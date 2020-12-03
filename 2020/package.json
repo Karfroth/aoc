@@ -1,0 +1,32 @@
+{
+  "name": "aoc-2020",
+  "version": "0.1.0",
+  "description": "AOC 2020",
+  "license": "MIT",
+  "esy": {
+    "build": "dune build -p #{self.name}",
+    "release": {
+      "bin": "aoc_2020",
+      "includePackages": [
+        "root",
+        "@opam/camomile"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "esy x aoc_2020"
+  },
+  "dependencies": {
+    "@opam/dune": "*",
+    "@opam/lambda-term": "*",
+    "@opam/lwt": "^5.3.0",
+    "ocaml": "~4.11.1000"
+  },
+  "devDependencies": {
+    "@opam/ocaml-lsp-server": "1.1.0",
+    "@opam/ocamlfind-secondary": "*",
+    "@opam/reason": "*",
+    "@opam/merlin": "^3.4.2",
+    "ocaml": "~4.11.1000"
+  }
+}
