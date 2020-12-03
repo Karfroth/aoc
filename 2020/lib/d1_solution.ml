@@ -30,11 +30,11 @@ let to_string = function
 let print_answer () =
   print_newline ();
   print_string "D1 Test Input: ";
-  D1_Input.test_input |> find |> to_string |> print_string;
+  D1_input.test_input |> find |> to_string |> print_string;
   print_newline ();
   print_string "D1 Q1: ";
-  D1_Input.input1 |> find |> to_string |> print_string; (* 618144 *)
+  D1_input.input1 |> find |> to_string |> print_string; (* 618144 *)
   print_newline ();
   print_string "D1 Q2: ";
-  D1_Input.input1 |> find2 |> to_string |> print_string; (* 173538720 *)
+  D1_input.input1 |> find2 |> to_string |> print_string; (* 173538720 *)
   print_newline ();
