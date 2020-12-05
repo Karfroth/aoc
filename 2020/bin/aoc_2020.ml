@@ -3,3 +3,4 @@ let () =
   Aoc_2020_lib.D2_solution.print_answer ();
   Aoc_2020_lib.D3_solution.print_answer ();
   Aoc_2020_lib.D4_solution.print_answer ();
+  Aoc_2020_lib.D5_solution.print_answer ();
