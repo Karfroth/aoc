@@ -37,8 +37,8 @@ let check_q2 (lst: (string * string) list) =
   ]
   and valid_hair_code_lst = [
     'a'; 'b'; 'c'; 'd'; 'e'; 'f'
-  ] in
-  let check_range min max v =
+  ] (* cannot load Str module. Hardcoding *)
+  and check_range min max v =
     try 
       let parsed = int_of_string v in 
       parsed >= min && parsed <= max 
@@ -47,8 +47,6 @@ let check_q2 (lst: (string * string) list) =
   let check_bth = check_range 1920 2002
   and check_iss = check_range 2010 2020
   and check_exp = check_range 2020 2030
-  and check_cm  = check_range 150 193
-  and check_in  = check_range 59 76
   and check_eye color = (List.find_opt (fun x -> x = color) eye_color_lst)
   |> Option.map (fun x -> true)
   |> fun x -> Option.value x ~default: false
@@ -71,14 +69,16 @@ let check_q2 (lst: (string * string) list) =
     match color |> String.to_seq |> List.of_seq with
     | h :: t -> if h = '#' then aux t else false
     | [] -> false
-  in
-  let check_height str =
-    let aux f lst =
+  and check_height str =
+    let check_cm  = check_range 150 193
+    and check_in  = check_range 59 76
+    and aux f lst =
       try List.rev lst |> List.to_seq |> String.of_seq |> f
       with _ -> false
     in
-    let reversed = String.to_seq str
-    |> Seq.fold_left (fun acc x -> x :: acc) [] in
+    let reversed =
+      String.to_seq str
+      |> Seq.fold_left (fun acc x -> x :: acc) [] in
     match reversed with
     | 'n' :: 'i' :: t -> aux check_in t
     | 'm' :: 'c' :: t -> aux check_cm t
@@ -100,26 +100,22 @@ let check_q2 (lst: (string * string) list) =
   |> List.map (fun (k, validate) -> List.assoc_opt k lst |> aux validate)
   |> List.for_all (fun x -> x)
 
-let solve_q1 lst =
+let solve solver lst =
   lst
-  |> List.filter check_q1
+  |> List.filter solver
   |> List.length
 
-let solve_q2 lst =
-  lst
-  |> List.filter check_q2
-  |> List.length
 let print_answer () =
   print_newline ();
   print_string "D4 Test for Q1: ";
-  D4_input.test_input |> process_data |> solve_q1 |> print_int; (* 2 *)
+  D4_input.test_input |> process_data |> solve check_q1 |> print_int; (* 2 *)
   print_newline ();
   print_string "D4 Q1: ";
-  D4_input.input1 |> process_data |> solve_q1 |> print_int; (* 242 *)
+  D4_input.input1 |> process_data |> solve check_q1 |> print_int; (* 242 *)
   print_newline ();
   print_string "D4 Test for Q2: ";
-  D4_input.test_input2 |> process_data |> solve_q2 |> print_int; (* 4 *)
+  D4_input.test_input2 |> process_data |> solve check_q2 |> print_int; (* 4 *)
   print_newline ();
   print_string "D4 Q2: ";
-  D4_input.input1 |> process_data |> solve_q2 |> print_int; (* 186 *)
+  D4_input.input1 |> process_data |> solve check_q2 |> print_int; (* 186 *)
   print_newline ();
