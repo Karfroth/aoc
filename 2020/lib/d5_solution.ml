@@ -81,7 +81,6 @@ let find_max_seat_id row_range col_range lst =
 
 let find_missing_seats row_range col_range lst =
   let seat_ids = List.map (calc_seat_id row_range col_range) lst |> List.sort (fun x y -> x - y) in
-  print_lst print_int seat_ids;
   let open Option in
   let+ tl = tl_opt seat_ids in
   let (toAdd, _) = List.combine seat_ids (tl @ [Int.zero])
@@ -98,3 +97,4 @@ let print_answer () =
   print_newline ();
   print_string "D5 Q2: ";
   D5_input.input1 |> find_missing_seats (0, 128) (0, 8) |> Option.safe_get (-1) |> print_int; (* 522 *)
+  print_newline ();
