@@ -1,9 +1,9 @@
-(* TODO: Use MAP to improve performance *)
-
 type contents = {
   amounts: int
 ; color: string
 }
+
+module StringMap = Map.Make(String)
 
 module Option = struct
   include Option
@@ -37,7 +37,7 @@ let rec find_target dict target contents =
     let res = content.color = target in
     if res then res
     else
-      match List.assoc_opt content.color dict with
+      match StringMap.find_opt content.color dict with
       | None -> false
       | Some cs -> find_target dict target cs
   )
@@ -47,7 +47,7 @@ let rec calc multiplier dict contents =
   if List.length contents = 0 then [multiplier]
   else 
     multiplier :: List.map (fun c ->
-      match List.assoc_opt c.color dict with
+      match StringMap.find_opt c.color dict with
       | None -> multiplier
       | Some cs ->
         (calc c.amounts dict cs)
@@ -60,9 +60,11 @@ let solve_q1 target lst =
   |> List.fold_left (fun acc -> function
   | None -> acc
   | Some v -> v :: acc
-  ) [] in
-  List.filter (fun (_, cs) -> find_target dict target cs) dict
-  |> List.length
+  ) []
+  |> List.to_seq
+  |> StringMap.of_seq in
+  StringMap.filter (fun _ cs -> find_target dict target cs) dict
+  |> StringMap.cardinal
 
 let solve_q2 target lst =
   let dict = lst
@@ -70,8 +72,10 @@ let solve_q2 target lst =
   |> List.fold_left (fun acc -> function
   | None -> acc
   | Some v -> v :: acc
-  ) [] in
-  match List.assoc_opt target dict with
+  ) []
+  |> List.to_seq
+  |> StringMap.of_seq in
+  match StringMap.find_opt target dict with
   | None -> 0
   | Some cs -> (calc 1 dict cs |> List.fold_left (fun acc x -> acc + x) 0) - 1
 
