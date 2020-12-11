@@ -59,3 +59,4 @@ let print_answer () =
   print_newline ();
   print_string "D9 Q2: ";
   D9_input.input1 |> List.map int_of_string |> solve_q2 25 |> print_int; (* 93727241 *)
+  print_newline ();
