@@ -10,3 +10,4 @@ let () =
   Aoc_2020_lib.D9_solution.print_answer ();
   Aoc_2020_lib.D10_solution.print_answer ();
   Aoc_2020_lib.D11_solution.print_answer ();
+  Aoc_2020_lib.D12_solution.print_answer ();
